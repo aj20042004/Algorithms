@@ -1,48 +1,44 @@
 
-# Breadth first search function
-def dfs(graph,visited,Queue,first_node):
+def dijkstra( graph , first_node):
 
-    visited.append(first_node)
-    Queue.append(first_node)
+    distance = {}
+    for node in graph:
+        distance[node] = float('inf')
+    distance[first_node] = 0
 
-    while Queue:
+    visited = []
 
-        elements = Queue.pop(0)
-        print(elements)
+    while len(visited) < len(graph):
 
-        for neighbours in graph[elements]:
-            if neighbours not in visited:
-                visited.append(neighbours)
-                Queue.append(neighbours)
+        min_dist = float('inf')
+        min_node = None
 
-# Main Function
+        for node in graph:
+            if node not in visited and distance[node] < min_dist:
+                min_dist = distance[node]
+                min_node = node
+
+        visited.append(min_node)
+
+        for neighbour, weight in graph[min_node].items():
+            new_dist = distance[min_node] + weight
+            if new_dist < distance[neighbour]:
+                distance[neighbour] = new_dist
+
+    return distance
+
+
+# main function
 graph = {
-
-    'A' : ['B','C'],
-    'B' : ['D','E'],
-    'C' : ['F'],
-    'D' : [],
-    'E' : ['F'],
-    'F' : []
+    'A': {'B': 5, 'C': 3},
+    'B': {'A': 5, 'C': 2, 'D': 1},
+    'C': {'A': 3, 'B': 2, 'D': 6},
+    'D': {'B': 1, 'C': 6}
 }
 
 first_node = 'A'
-visited = []
-Queue = []
-dfs(graph,visited,Queue,first_node)
-print("committing...")
 
+elements = dijkstra(graph,first_node)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+for neighbour, weight in elements.items():
+    print(neighbour,":", weight)
