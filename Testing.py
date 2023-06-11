@@ -1,44 +1,41 @@
 
-def dijkstra( graph , first_node):
 
-    distance = {}
-    for node in graph:
-        distance[node] = float('inf')
-    distance[first_node] = 0
+# QuickSort function
+def quickSort(arr,left,right):
 
-    visited = []
+    if left < right:
 
-    while len(visited) < len(graph):
+        pivot_element = pivot(arr,left,right)
+        quickSort(arr,left,pivot_element-1)
+        quickSort(arr,pivot_element+1,right)
 
-        min_dist = float('inf')
-        min_node = None
+def pivot(arr,left,right):
 
-        for node in graph:
-            if node not in visited and distance[node] < min_dist:
-                min_dist = distance[node]
-                min_node = node
+    i = left
+    j = right - 1
+    pivot_number = arr[right]
 
-        visited.append(min_node)
+    while i < j:
 
-        for neighbour, weight in graph[min_node].items():
-            new_dist = distance[min_node] + weight
-            if new_dist < distance[neighbour]:
-                distance[neighbour] = new_dist
+        while i < right  and arr[i] < pivot_number:
+            i += 1
 
-    return distance
+        while j > left and arr[j] >= pivot_number:
+            j -= 1
+
+        if i < j:
+            arr[i] , arr[j] = arr[j] , arr[i]
+
+    if arr[i] > pivot_number:
+        arr[i] , arr[right] = arr[right] , arr[i]
+
+    return i
+
+
 
 
 # main function
-graph = {
-    'A': {'B': 5, 'C': 3},
-    'B': {'A': 5, 'C': 2, 'D': 1},
-    'C': {'A': 3, 'B': 2, 'D': 6},
-    'D': {'B': 1, 'C': 6}
-}
-
-first_node = 'A'
-
-elements = dijkstra(graph,first_node)
-
-for neighbour, weight in elements.items():
-    print(neighbour,":", weight)
+arr = [234, 1, 34, 5, 66, 7, 9, 0]
+print("The array before sorting: ", arr)
+quickSort(arr,0,len(arr)-1)
+print("The array after sorting: ", arr)
