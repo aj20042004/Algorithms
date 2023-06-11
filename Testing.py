@@ -1,41 +1,37 @@
 
+import heapq
 
-# QuickSort function
-def quickSort(arr,left,right):
+# Prim's function
 
-    if left < right:
+def Prim(graph):
 
-        pivot_element = pivot(arr,left,right)
-        quickSort(arr,left,pivot_element-1)
-        quickSort(arr,pivot_element+1,right)
+    start_vertex = list(graph.keys())[0]
 
-def pivot(arr,left,right):
+    priority_queue = [(0,start_vertex)]
 
-    i = left
-    j = right - 1
-    pivot_number = arr[right]
+    mst = []
 
-    while i < j:
+    while priority_queue:
 
-        while i < right  and arr[i] < pivot_number:
-            i += 1
+        weight , vertex = heapq.heappop(priority_queue)
 
-        while j > left and arr[j] >= pivot_number:
-            j -= 1
+        if vertex not in mst:
+            mst.append(vertex)
 
-        if i < j:
-            arr[i] , arr[j] = arr[j] , arr[i]
+            for neigbhour , weight in graph[vertex].items():
+                if neigbhour not in mst:
+                    heapq.heappush(priority_queue,(weight,neigbhour))
 
-    if arr[i] > pivot_number:
-        arr[i] , arr[right] = arr[right] , arr[i]
-
-    return i
-
-
+    return  mst
 
 
 # main function
-arr = [234, 1, 34, 5, 66, 7, 9, 0]
-print("The array before sorting: ", arr)
-quickSort(arr,0,len(arr)-1)
-print("The array after sorting: ", arr)
+graph = {
+    'A': {'B': 2, 'C':3},
+    'B': {'A': 2, 'C': 4, 'D':3},
+    'C': {'A': 3, 'B': 4, 'D':5},
+    'D': {'B': 3, 'C': 5}
+}
+
+mst = Prim(graph)
+print("Minimum spanning Tree: ", mst)
