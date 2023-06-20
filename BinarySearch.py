@@ -25,7 +25,7 @@ def binarySearch(arr,element):
     return "Sorry ! element not found in the array"
 
 #main function
-arr = [2,3,4,7,8]
+arr = [233 , 0 , 90 , 1 ,2 , 55]
 print("Thsi is our array  : " , arr)
 ch = int(input("What value to search ? : "))
 print(binarySearch(arr,ch))
